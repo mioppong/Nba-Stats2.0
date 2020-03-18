@@ -6,18 +6,21 @@ from pprint import pprint
 from pandas import DataFrame
 
 def main():
-    df = DataFrame()
-    columns = []
-    for x in client.players_advanced_season_totals(2020)[0]:
-        columns.append(x)
-
-    df.rename(columns = columns)
-    for x in (client.players_advanced_season_totals(season_end_year=2020)):
-        for y in dict(x):
-            print (y.value)
-            pprint("asa")
-
+    avg_20_plus()
     
+
+def avg_20_plus():
+   
+    for x in (client.players_season_totals(season_end_year=2020)):
+        games_played = int(x['games_played'])
+        points = int(x['points'])
+        avg_points =  round(points/games_played, 2)   
+        
+        if( avg_points > 20):
+
+            print(x['name'])
+            print("avg_points is", str(avg_points))
+            print(" ")
 
 if __name__ == "__main__":                     
     main()
