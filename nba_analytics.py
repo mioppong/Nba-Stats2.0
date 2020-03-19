@@ -12,7 +12,7 @@ def main():
     #points_per_minutes()
     #under_20_avg_20_plus()
     #plot_3_pct_vs_points()
-    usage_vs_points()
+    plot_usage_vs_points()
 
     
 
@@ -80,13 +80,19 @@ def plot_3_pct_vs_points():
     df.plot(x = '3_pct',y ='avg_points',kind='scatter')
     plt.show()
 
-def usage_vs_points():
+def plot_usage_vs_points():
     df = DataFrame()
+    df2 =DataFrame()
     for x in (client.players_advanced_season_totals(season_end_year=2020)):
         df = df.append(DataFrame(x),ignore_index=True)
-    print(df.columns)
-    #df['avg_points'] = df['points']/df['games_played']
 
+    for x in (client.players_season_totals(season_end_year=2020)):
+        df2 = df2.append(DataFrame(x),ignore_index=True)
+    
+    df['avg_points'] = round(df2['points']/df2['games_played'],2)
+    df.plot(x = 'usage_percentage',y='avg_points',kind='scatter')
+    plt.show()
+    #print(df[['name','avg_points']].head(20))
 
 
 if __name__ == "__main__":                     
