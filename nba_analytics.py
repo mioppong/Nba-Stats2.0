@@ -4,12 +4,15 @@ from pprint import pprint
 import operator
 from pprint import pprint
 from pandas import DataFrame
+import matplotlib.pyplot as plt
 
 def main():
     #avg_20_plus()
     #avg_20_plus_mins()
     #points_per_minutes()
-    under_20_avg_20_plus()
+    #under_20_avg_20_plus()
+    #plot_3_pct_vs_points()
+    usage_vs_points()
 
     
 
@@ -61,6 +64,31 @@ def under_20_avg_20_plus():
             answer_dict[x['name']] = avg_points
         
     pprint(answer_dict)
+
+def plot_3_pct_vs_points():
+    df = DataFrame()
+    df_3s = DataFrame()
+
+    for x in (client.players_season_totals(season_end_year=2019)):
+        df = df.append(DataFrame(x),ignore_index=True)
+    
+    df['3_pct'] = df['made_three_point_field_goals']/ df['attempted_three_point_field_goals']
+    df['avg_points'] = df['points']/ df['games_played']
+    #df_temp = DataFrame(1,2)
+    #df = df.append(df_temp)
+    #df.plot(x='turnovers',y='points')
+    df.plot(x = '3_pct',y ='avg_points',kind='scatter')
+    plt.show()
+
+def usage_vs_points():
+    df = DataFrame()
+    for x in (client.players_advanced_season_totals(season_end_year=2020)):
+        df = df.append(DataFrame(x),ignore_index=True)
+    print(df.columns)
+    #df['avg_points'] = df['points']/df['games_played']
+
+
+
 if __name__ == "__main__":                     
     main()
 
