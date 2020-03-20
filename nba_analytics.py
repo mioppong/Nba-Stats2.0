@@ -12,7 +12,8 @@ def main():
     #points_per_minutes()
     #under_20_avg_20_plus()
     #plot_3_pct_vs_points()
-    plot_usage_vs_points()
+    #plot_usage_vs_points()
+    steals_vs_fouls()
 
     
 
@@ -94,7 +95,17 @@ def plot_usage_vs_points():
     plt.show()
     #print(df[['name','avg_points']].head(20))
 
+def steals_vs_fouls():
+    df  = DataFrame()
+    for x in (client.players_season_totals(season_end_year=2020)):
+        df = df.append(DataFrame(x),ignore_index=True)
 
+    df['avg_steals'] = df['steals']/df['games_played']
+    df['avg_fouls'] = df['personal_fouls']/df['games_played']
+
+    df.plot(x = 'avg_steals',y='avg_fouls',kind='scatter')
+    plt.show()
+    
 if __name__ == "__main__":                     
     main()
 
